@@ -1,6 +1,6 @@
 // Import các hàm cần thiết từ SDK
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 // Cấu hình Firebase
 const firebaseConfig = {
@@ -21,14 +21,19 @@ const database = getDatabase(app);
 // Đọc dữ liệu từ Firebase
 const dataContainer = document.getElementById('data-container');
 
-// Thay đổi đường dẫn 'aaa' để phù hợp với dữ liệu của bạn
+// Đường dẫn đến dữ liệu mà bạn muốn lấy
 const dataRef = ref(database, 'aaa');
 
 onValue(dataRef, (snapshot) => {
     const data = snapshot.val();
 
-    // Hiển thị dữ liệu lên trang web
-    dataContainer.innerHTML = `<p><strong>Dữ liệu:</strong> ${data}</p>`;
+    if (data) {
+        // Hiển thị dữ liệu lên trang web
+        dataContainer.innerHTML = `<p><strong>Dữ liệu:</strong> ${data}</p>`;
+    } else {
+        dataContainer.innerHTML = `<p>Không có dữ liệu tại đường dẫn 'aaa'</p>`;
+    }
 }, (error) => {
     console.error("Lỗi khi đọc dữ liệu từ Firebase:", error);
+    dataContainer.innerHTML = `<p>Đã xảy ra lỗi khi lấy dữ liệu: ${error.message}</p>`;
 });
