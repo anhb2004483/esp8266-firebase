@@ -1,6 +1,6 @@
 // Import các hàm cần thiết từ SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 // Cấu hình Firebase
 const firebaseConfig = {
@@ -18,10 +18,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Đọc dữ liệu từ Firebase
+// Đọc dữ liệu từ Firebase cho biến `aaa`
 const dataContainer = document.getElementById('data-container');
-
-// Đường dẫn đến dữ liệu mà bạn muốn lấy
 const dataRef = ref(database, 'aaa');
 
 onValue(dataRef, (snapshot) => {
@@ -29,11 +27,42 @@ onValue(dataRef, (snapshot) => {
 
     if (data) {
         // Hiển thị dữ liệu lên trang web
-        dataContainer.innerHTML = `<p><strong>Dữ liệu:</strong> ${data}</p>`;
+        dataContainer.innerHTML = `<p><strong>Dữ liệu aaa:</strong> ${data}</p>`;
     } else {
         dataContainer.innerHTML = `<p>Không có dữ liệu tại đường dẫn 'aaa'</p>`;
     }
 }, (error) => {
     console.error("Lỗi khi đọc dữ liệu từ Firebase:", error);
     dataContainer.innerHTML = `<p>Đã xảy ra lỗi khi lấy dữ liệu: ${error.message}</p>`;
+});
+
+// Lưu dữ liệu từ người dùng vào biến `bbb`
+const inputData = document.getElementById('input-data');
+const sendDataBtn = document.getElementById('send-data-btn');
+const statusMessage = document.getElementById('status-message');
+
+// Khi người dùng nhấn nút gửi dữ liệu
+sendDataBtn.addEventListener('click', () => {
+    const newData = inputData.value; // Lấy dữ liệu người dùng nhập vào
+
+    if (newData) {
+        // Tham chiếu đến biến `bbb` trong Firebase
+        const bbbRef = ref(database, 'bbb');
+
+        // Lưu dữ liệu mới vào Firebase
+        set(bbbRef, newData)
+            .then(() => {
+                statusMessage.textContent = "Dữ liệu đã được gửi thành công!";
+                statusMessage.style.color = "green";
+                inputData.value = ""; // Xóa ô nhập liệu sau khi gửi
+            })
+            .catch((error) => {
+                console.error("Lỗi khi gửi dữ liệu:", error);
+                statusMessage.textContent = `Đã xảy ra lỗi: ${error.message}`;
+                statusMessage.style.color = "red";
+            });
+    } else {
+        statusMessage.textContent = "Vui lòng nhập dữ liệu!";
+        statusMessage.style.color = "red";
+    }
 });
