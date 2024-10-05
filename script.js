@@ -14,10 +14,10 @@ const app = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // Đọc dữ liệu từ Firebase
-const dataContainer = document.getElementById('data-container');
+const dataContainer = document.getElementById('aaa');
 
 // Thay đổi đường dẫn 'exampleData' để phù hợp với dữ liệu của bạn
-firebase.database().ref('exampleData').on('value', (snapshot) => {
+firebase.database().ref('https://espp-d81e2-default-rtdb.asia-southeast1.firebasedatabase.app/quan1').on('value', (snapshot) => {
     const data = snapshot.val();
 
     // Hiển thị dữ liệu lên trang web
