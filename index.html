@@ -3,76 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bảng Chữ Cái</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .alphabet-container {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        .alphabet {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-            font-size: 24px;
-        }
-        .alphabet div {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .alphabet div:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Đọc dữ liệu từ Firebase</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="alphabet-container">
-        <h1>Bảng Chữ Cái Tiếng Anh</h1>
-        <div class="alphabet">
-            <div>A</div>
-            <div>B</div>
-            <div>C</div>
-            <div>D</div>
-            <div>E</div>
-            <div>F</div>
-            <div>G</div>
-            <div>H</div>
-            <div>I</div>
-            <div>J</div>
-            <div>K</div>
-            <div>L</div>
-            <div>M</div>
-            <div>N</div>
-            <div>O</div>
-            <div>P</div>
-            <div>Q</div>
-            <div>R</div>
-            <div>S</div>
-            <div>T</div>
-            <div>U</div>
-            <div>V</div>
-            <div>W</div>
-            <div>X</div>
-            <div>Y</div>
-            <div>Z</div>
-        </div>
-    </div>
+    <h1>Dữ liệu từ Firebase</h1>
+    <div id="data-container"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
+
+    <!-- Kết nối script.js -->
+    <script src="script.js"></script>
 </body>
 </html>
