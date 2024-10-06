@@ -20,23 +20,11 @@ const database = getDatabase(app);
 
 // Hàm để lấy và hiển thị dữ liệu từ Firebase
 function getData() {
-    const sn1ObjectRef = ref(database, 'SN1/object');
-    const sn1GasRef = ref(database, 'SN1/gas');
-    const sn1SNRef = ref(database, 'SN1/SN');
+    const aaaRef = ref(database, 'aaa');
 
-    onValue(sn1ObjectRef, (snapshot) => {
+    onValue(aaaRef, (snapshot) => {
         const data = snapshot.val();
-        document.getElementById('sn1-object').innerText = data !== null ? data : 'Không có dữ liệu';
-    });
-
-    onValue(sn1GasRef, (snapshot) => {
-        const data = snapshot.val();
-        document.getElementById('sn1-gas').innerText = data !== null ? data : 'Không có dữ liệu';
-    });
-
-    onValue(sn1SNRef, (snapshot) => {
-        const data = snapshot.val();
-        document.getElementById('sn1-sn').innerText = data !== null ? data : 'Không có dữ liệu';
+        document.getElementById('aaa').innerText = data !== null ? data : 'Không có dữ liệu';
     });
 }
 
