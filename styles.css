@@ -1,65 +1,64 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
     text-align: center;
 }
 
-#login-container, #edit-modal {
-    max-width: 400px;
+#login-container {
+    width: 300px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    background-color: white;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#login-container input, #edit-modal input, #edit-modal select {
+input {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
-#login-container button, #edit-modal button {
+button {
     width: 100%;
     padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#login-container button:hover, #edit-modal button:hover {
-    background-color: #218838;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-.edit-button {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 5px 10px;
+    border-radius: 4px;
     cursor: pointer;
 }
 
-.edit-button:hover {
+button:hover {
     background-color: #0056b3;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+input[type="number"], select {
+    width: 80px;
 }
