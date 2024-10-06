@@ -5,24 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đọc và Ghi Dữ Liệu Firebase</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
     <script type="module" src="script.js"></script>
 </head>
 <body>
-    <!-- Login Section -->
-    <div id="login-container">
-        <h1>Đăng Nhập</h1>
-        <input type="text" id="name-input" placeholder="Nhập tên">
-        <input type="password" id="password-input" placeholder="Nhập mật khẩu">
-        <button id="login-btn">Đăng Nhập</button>
-        <p id="login-status"></p>
-    </div>
+    <h1>Dữ Liệu từ Firebase</h1>
+    <div id="data-container">Loading...</div>
 
-    <!-- Main Section -->
-    <div id="main-container" style="display: none;">
-        <h1>Dữ Liệu Sensor Node</h1>
-        <div id="sensor-data-container">Loading...</div>
-    </div>
+    <h2>Nhập dữ liệu mới cho biến bbb:</h2>
+    <input type="text" id="input-data" placeholder="Nhập dữ liệu cho bbb">
+    <button id="send-data-btn">Gửi dữ liệu</button>
+
+    <p id="status-message"></p>
+
+    <!-- Thêm phần tử này để hiển thị dữ liệu cảm biến -->
+    <div id="sensorDataContainer">Loading sensor data...</div>
+
 </body>
 </html>
