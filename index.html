@@ -11,89 +11,49 @@
     <script type="module" src="script.js"></script>
 </head>
 <body>
-    <h1>Đăng Nhập</h1>
-    <div id="login-container">
-        <input type="text" id="username" placeholder="Tên người dùng" required>
-        <input type="password" id="password" placeholder="Mật khẩu" required>
-        <button id="login-button">Đăng Nhập</button>
-        <div id="login-message"></div>
+    <h1>Dữ Liệu từ Firebase</h1>
+    <div class="sensor-container">
+        <h2>Sensor SN1</h2>
+        <table>
+            <tr>
+                <td>Gas Threshold</td>
+                <td><input type="number" id="sn1-gas-threshold" placeholder="Gas Threshold"></td>
+            </tr>
+            <tr>
+                <td>Temp Threshold</td>
+                <td><input type="number" id="sn1-temp-threshold" placeholder="Temp Threshold"></td>
+            </tr>
+            <tr>
+                <td>Khẩn Cấp</td>
+                <td><input type="checkbox" id="sn1-khancap"> Khẩn Cấp</td>
+            </tr>
+            <tr>
+                <td colspan="2"><button onclick="updateSensorData('SN1')">Cập Nhật Sensor SN1</button></td>
+            </tr>
+        </table>
     </div>
 
-    <h1>Dữ Liệu từ Firebase</h1>
-    <table id="data-table" style="display: none;">
-        <thead>
+    <div class="sensor-container">
+        <h2>Sensor SN2</h2>
+        <table>
             <tr>
-                <th>Sensor</th>
-                <th>Object</th>
-                <th>Gas</th>
-                <th>Gas Threshold</th>
-                <th>Temp Threshold</th>
-                <th>Khẩn Cấp</th>
-                <th>Chỉnh Sửa</th>
+                <td>Gas Threshold</td>
+                <td><input type="number" id="sn2-gas-threshold" placeholder="Gas Threshold"></td>
             </tr>
-        </thead>
-        <tbody>
-            <!-- SN1 Row -->
             <tr>
-                <td>SN1</td>
-                <td id="sn1-object-data">12</td>
-                <td id="sn1-gas-data">12</td>
-                <td id="sn1-gas-threshold-data">22</td>
-                <td id="sn1-temp-threshold-data">Loading...</td>
-                <td id="sn1-khancap-data">true</td>
-                <td>
-                    <input type="number" id="sn1-edit-gas-threshold" placeholder="Gas Threshold">
-                    <input type="number" id="sn1-edit-temp-threshold" placeholder="Temp Threshold">
-                    <input type="checkbox" id="sn1-edit-khancap"> Khẩn Cấp
-                    <button onclick="updateThreshold('SN1')">Cập Nhật</button>
-                </td>
+                <td>Temp Threshold</td>
+                <td><input type="number" id="sn2-temp-threshold" placeholder="Temp Threshold"></td>
             </tr>
-            <!-- SN2 Row -->
             <tr>
-                <td>SN2</td>
-                <td id="sn2-object-data">22</td>
-                <td id="sn2-gas-data">11</td>
-                <td id="sn2-gas-threshold-data">2222</td>
-                <td id="sn2-temp-threshold-data">Loading...</td>
-                <td id="sn2-khancap-data">true</td>
-                <td>
-                    <input type="number" id="sn2-edit-gas-threshold" placeholder="Gas Threshold">
-                    <input type="number" id="sn2-edit-temp-threshold" placeholder="Temp Threshold">
-                    <input type="checkbox" id="sn2-edit-khancap"> Khẩn Cấp
-                    <button onclick="updateThreshold('SN2')">Cập Nhật</button>
-                </td>
+                <td>Khẩn Cấp</td>
+                <td><input type="checkbox" id="sn2-khancap"> Khẩn Cấp</td>
             </tr>
-            <!-- SN3 Row -->
             <tr>
-                <td>SN3</td>
-                <td id="sn3-object-data">33</td>
-                <td id="sn3-gas-data">11</td>
-                <td id="sn3-gas-threshold-data">11</td>
-                <td id="sn3-temp-threshold-data">Loading...</td>
-                <td id="sn3-khancap-data">true</td>
-                <td>
-                    <input type="number" id="sn3-edit-gas-threshold" placeholder="Gas Threshold">
-                    <input type="number" id="sn3-edit-temp-threshold" placeholder="Temp Threshold">
-                    <input type="checkbox" id="sn3-edit-khancap"> Khẩn Cấp
-                    <button onclick="updateThreshold('SN3')">Cập Nhật</button>
-                </td>
+                <td colspan="2"><button onclick="updateSensorData('SN2')">Cập Nhật Sensor SN2</button></td>
             </tr>
-            <!-- SN4 Row -->
-            <tr>
-                <td>SN4</td>
-                <td id="sn4-object-data">22</td>
-                <td id="sn4-gas-data">234</td>
-                <td id="sn4-gas-threshold-data">234</td>
-                <td id="sn4-temp-threshold-data">Loading...</td>
-                <td id="sn4-khancap-data">true</td>
-                <td>
-                    <input type="number" id="sn4-edit-gas-threshold" placeholder="Gas Threshold">
-                    <input type="number" id="sn4-edit-temp-threshold" placeholder="Temp Threshold">
-                    <input type="checkbox" id="sn4-edit-khancap"> Khẩn Cấp
-                    <button onclick="updateThreshold('SN4')">Cập Nhật</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        </table>
+    </div>
+
+    <!-- Tương tự cho SN3, SN4 -->
 </body>
 </html>
