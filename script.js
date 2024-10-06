@@ -1,57 +1,44 @@
-// Import the functions you need from the SDKs you need
+// Import các hàm từ Firebase SDK
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get } from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBI8Dfptxa5q3G6_GB1KfJZjWgU0lWEiDI",
-  authDomain: "espgas-d6120.firebaseapp.com",
-  databaseURL: "https://espgas-d6120-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "espgas-d6120",
-  storageBucket: "espgas-d6120.appspot.com",
-  messagingSenderId: "577421708651",
-  appId: "1:577421708651:web:cfc074f1ffb4761c45902e",
-  measurementId: "G-ZRRBCE50GS"
+    apiKey: "AIzaSyBI8Dfptxa5q3G6_GB1KfJZjWgU0lWEiDI",
+    authDomain: "espgas-d6120.firebaseapp.com",
+    databaseURL: "https://espgas-d6120-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "espgas-d6120",
+    storageBucket: "espgas-d6120.appspot.com",
+    messagingSenderId: "577421708651",
+    appId: "1:577421708651:web:cfc074f1ffb4761c45902e",
+    measurementId: "G-ZRRBCE50GS"
 };
 
-// Initialize Firebase
+// Khởi tạo Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Function to fetch and display data from Firebase
-async function fetchData() {
-  const sn1Ref = ref(database, 'SN1'); // Reference to SN1 object
-  const csnRef = ref(database, 'csn'); // Reference to csn object
-  try {
-    // Fetch SN1 data
-    const sn1Snapshot = await get(sn1Ref);
-    if (sn1Snapshot.exists()) {
-      const sn1Data = sn1Snapshot.val();
+// Hàm để lấy và hiển thị dữ liệu từ Firebase
+function getData() {
+    const sn1ObjectRef = ref(database, 'SN1/object');
+    const sn1GasRef = ref(database, 'SN1/gas');
+    const sn1SNRef = ref(database, 'SN1/SN');
 
-      // Display the SN1 data on the web page
-      document.getElementById('sn1-object').innerText = JSON.stringify(sn1Data);
-      document.getElementById('sn1-gas').innerText = sn1Data.gas;
-      document.getElementById('sn1-sn').innerText = sn1Data.SN;
-    } else {
-      console.log("No SN1 data available");
-    }
+    onValue(sn1ObjectRef, (snapshot) => {
+        const data = snapshot.val();
+        document.getElementById('sn1-object').innerText = data ? data : 'Không có dữ liệu';
+    });
 
-    // Fetch CSN data
-    const csnSnapshot = await get(csnRef);
-    if (csnSnapshot.exists()) {
-      const csnData = csnSnapshot.val();
+    onValue(sn1GasRef, (snapshot) => {
+        const data = snapshot.val();
+        document.getElementById('sn1-gas').innerText = data ? data : 'Không có dữ liệu';
+    });
 
-      // Display the CSN data on the web page
-      document.getElementById('csn-object').innerText = JSON.stringify(csnData);
-      document.getElementById('csn-gas').innerText = csnData.gas;
-      document.getElementById('csn-sn').innerText = csnData.SN;
-    } else {
-      console.log("No CSN data available");
-    }
-  } catch (error) {
-    console.error("Error fetching data: ", error);
-  }
+    onValue(sn1SNRef, (snapshot) => {
+        const data = snapshot.val();
+        document.getElementById('sn1-sn').innerText = data ? data : 'Không có dữ liệu';
+    });
 }
 
-// Call the fetchData function when the page loads
-window.onload = fetchData;
+// Gọi hàm để lấy dữ liệu
+getData();
