@@ -9,20 +9,43 @@ h1 {
 }
 
 #login-container {
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 #login-container input {
-    display: block;
-    margin: 10px auto;
+    margin: 10px;
     padding: 10px;
-    width: 200px;
+    font-size: 16px;
 }
 
-#main-content {
+#login-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#login-container button:hover {
+    background-color: #45a049;
+}
+
+#data-container, #status-message {
     margin-top: 20px;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#main-container {
+    display: none;
+}
+
+#input-data {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 20px;
 }
