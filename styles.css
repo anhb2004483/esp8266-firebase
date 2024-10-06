@@ -1,32 +1,41 @@
 body {
     font-family: Arial, sans-serif;
-}
-
-h1 {
     text-align: center;
 }
 
-#login-container {
-    text-align: center;
-    margin: 20px;
-}
-
-#login-message {
-    margin-top: 10px;
-    color: red;
+.sensor-container {
+    margin: 20px auto;
+    width: 300px;
 }
 
 table {
-    margin: 20px auto;
+    width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
-table, th, td {
-    border: 1px solid black;
+td {
+    padding: 8px;
+}
+
+button {
+    width: 100%;
     padding: 10px;
-    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
 }
 
 input[type="number"] {
-    width: 100px;
+    width: 100%;
+    padding: 8px;
+}
+
+input[type="checkbox"] {
+    margin-top: 12px;
 }
