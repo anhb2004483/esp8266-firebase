@@ -65,3 +65,36 @@ fetchDataForSensor('SN1', sn1Refs);
 fetchDataForSensor('SN2', sn2Refs);
 fetchDataForSensor('SN3', sn3Refs);
 fetchDataForSensor('SN4', sn4Refs);
+
+// Đăng nhập
+const loginButton = document.getElementById('login-button');
+const loginMessage = document.getElementById('login-message');
+
+loginButton.addEventListener('click', () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // Tham chiếu đến tên người dùng và mật khẩu trong Firebase
+    const userRef = ref(database, 'user');
+
+    onValue(userRef, (snapshot) => {
+        const userData = snapshot.val();
+
+        if (userData) {
+            const dbUsername = userData.name;
+            const dbPassword = userData.password;
+
+            if (username === dbUsername && password === dbPassword) {
+                loginMessage.textContent = 'Đăng nhập thành công!';
+                document.getElementById('data-table').style.display = 'table'; // Hiện bảng dữ liệu
+            } else {
+                loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
+            }
+        } else {
+            loginMessage.textContent = 'Không tìm thấy dữ liệu người dùng!';
+        }
+    }, (error) => {
+        console.error("Lỗi khi đọc dữ liệu người dùng:", error);
+        loginMessage.textContent = 'Đã xảy ra lỗi khi lấy dữ liệu người dùng: ' + error.message;
+    });
+});
