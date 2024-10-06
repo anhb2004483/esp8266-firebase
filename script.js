@@ -26,17 +26,17 @@ function getData() {
 
     onValue(sn1ObjectRef, (snapshot) => {
         const data = snapshot.val();
-        document.getElementById('sn1-object').innerText = data ? data : 'Không có dữ liệu';
+        document.getElementById('sn1-object').innerText = data !== null ? data : 'Không có dữ liệu';
     });
 
     onValue(sn1GasRef, (snapshot) => {
         const data = snapshot.val();
-        document.getElementById('sn1-gas').innerText = data ? data : 'Không có dữ liệu';
+        document.getElementById('sn1-gas').innerText = data !== null ? data : 'Không có dữ liệu';
     });
 
     onValue(sn1SNRef, (snapshot) => {
         const data = snapshot.val();
-        document.getElementById('sn1-sn').innerText = data ? data : 'Không có dữ liệu';
+        document.getElementById('sn1-sn').innerText = data !== null ? data : 'Không có dữ liệu';
     });
 }
 
