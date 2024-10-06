@@ -23,24 +23,28 @@ const sn1Refs = {
     object: document.getElementById('sn1-object-data'),
     gas: document.getElementById('sn1-gas-data'),
     gasThreshold: document.getElementById('sn1-gas-threshold-data'),
+    tempThreshold: document.getElementById('sn1-temp-threshold-data'),
     khancap: document.getElementById('sn1-khancap-data')
 };
 const sn2Refs = {
     object: document.getElementById('sn2-object-data'),
     gas: document.getElementById('sn2-gas-data'),
     gasThreshold: document.getElementById('sn2-gas-threshold-data'),
+    tempThreshold: document.getElementById('sn2-temp-threshold-data'),
     khancap: document.getElementById('sn2-khancap-data')
 };
 const sn3Refs = {
     object: document.getElementById('sn3-object-data'),
     gas: document.getElementById('sn3-gas-data'),
     gasThreshold: document.getElementById('sn3-gas-threshold-data'),
+    tempThreshold: document.getElementById('sn3-temp-threshold-data'),
     khancap: document.getElementById('sn3-khancap-data')
 };
 const sn4Refs = {
     object: document.getElementById('sn4-object-data'),
     gas: document.getElementById('sn4-gas-data'),
     gasThreshold: document.getElementById('sn4-gas-threshold-data'),
+    tempThreshold: document.getElementById('sn4-temp-threshold-data'),
     khancap: document.getElementById('sn4-khancap-data')
 };
 
@@ -54,6 +58,9 @@ const fetchDataForSensor = (sensorRef, refs) => {
     });
     onValue(ref(database, `${sensorRef}/Gas_threshold`), (snapshot) => {
         refs.gasThreshold.textContent = snapshot.val() || 'N/A';
+    });
+    onValue(ref(database, `${sensorRef}/Temp_threshold`), (snapshot) => {
+        refs.tempThreshold.textContent = snapshot.val() || 'N/A';
     });
     onValue(ref(database, `${sensorRef}/khancap`), (snapshot) => {
         refs.khancap.textContent = snapshot.val() || 'N/A';
@@ -86,6 +93,7 @@ loginButton.addEventListener('click', () => {
 
             if (username === dbUsername && password === dbPassword) {
                 loginMessage.textContent = 'Đăng nhập thành công!';
+                document.getElementById('login-container').style.display = 'none'; // Ẩn phần đăng nhập
                 document.getElementById('data-table').style.display = 'table'; // Hiện bảng dữ liệu
             } else {
                 loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
