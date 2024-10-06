@@ -53,3 +53,39 @@ loginBtn.addEventListener('click', () => {
                 const snRef = ref(database, 'SN');
                 onValue(snRef, (snapshot) => {
                     const snData = snapshot.val();
+
+                    // Clear previous data
+                    sensorDataContainer.innerHTML = '';
+
+                    if (snData) {
+                        Object.keys(snData).forEach((key) => {
+                            const sensorNode = snData[key];
+
+                            const sensorName = sensorNode.object || 'N/A';
+                            const gasValue = sensorNode.gas || 'N/A';
+                            const tempValue = sensorNode.temperature || 'N/A';
+
+                            // Display sensor data
+                            const sensorDataLine = `
+                                <p>
+                                    <strong>Tên Sensor Node:</strong> ${sensorName} 
+                                    <strong>Gas:</strong> ${gasValue} 
+                                    <strong>Nhiệt độ:</strong> ${tempValue}
+                                </p>`;
+                            sensorDataContainer.innerHTML += sensorDataLine;
+                        });
+                    } else {
+                        sensorDataContainer.innerHTML = `<p>Không có dữ liệu Sensor Node trong Firebase.</p>`;
+                    }
+                }, (error) => {
+                    console.error("Lỗi khi đọc dữ liệu từ Firebase:", error);
+                    sensorDataContainer.innerHTML = `<p>Đã xảy ra lỗi khi lấy dữ liệu: ${error.message}</p>`;
+                });
+            } else {
+                // Failed login
+                loginStatus.textContent = "Tên hoặc mật khẩu không đúng!";
+                loginStatus.style.color = "red";
+            }
+        });
+    });
+});
