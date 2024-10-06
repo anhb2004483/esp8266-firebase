@@ -18,22 +18,40 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Đọc dữ liệu từ Firebase
-const dataContainer = document.getElementById('data-container');
+// Tham chiếu các phần tử trong bảng
+const objectData = document.getElementById('object-data');
+const gasData = document.getElementById('gas-data');
+const gasThresholdData = document.getElementById('gas-threshold-data');
+const khancapData = document.getElementById('khancap-data');
 
-// Đường dẫn đến dữ liệu mà bạn muốn lấy
-const dataRef = ref(database, 'aaa');
+// Tham chiếu đến các biến trong Firebase
+const objectRef = ref(database, 'SN1/object');
+const gasRef = ref(database, 'SN1/gas');
+const gasThresholdRef = ref(database, 'SN1/Gas_threshold');
+const khancapRef = ref(database, 'SN1/khancap');
 
-onValue(dataRef, (snapshot) => {
-    const data = snapshot.val();
+// Hàm để lấy và hiển thị dữ liệu từ Firebase
+const fetchTableData = () => {
+    // Đọc dữ liệu từ SN1/object
+    onValue(objectRef, (snapshot) => {
+        objectData.textContent = snapshot.val() || 'N/A';
+    });
 
-    if (data) {
-        // Hiển thị dữ liệu lên trang web
-        dataContainer.innerHTML = `<p><strong>Dữ liệu:</strong> ${data}</p>`;
-    } else {
-        dataContainer.innerHTML = `<p>Không có dữ liệu tại đường dẫn 'aaa'</p>`;
-    }
-}, (error) => {
-    console.error("Lỗi khi đọc dữ liệu từ Firebase:", error);
-    dataContainer.innerHTML = `<p>Đã xảy ra lỗi khi lấy dữ liệu: ${error.message}</p>`;
-});
+    // Đọc dữ liệu từ SN1/gas
+    onValue(gasRef, (snapshot) => {
+        gasData.textContent = snapshot.val() || 'N/A';
+    });
+
+    // Đọc dữ liệu từ SN1/Gas_threshold
+    onValue(gasThresholdRef, (snapshot) => {
+        gasThresholdData.textContent = snapshot.val() || 'N/A';
+    });
+
+    // Đọc dữ liệu từ SN1/khancap
+    onValue(khancapRef, (snapshot) => {
+        khancapData.textContent = snapshot.val() || 'N/A';
+    });
+};
+
+// Gọi hàm để lấy dữ liệu và cập nhật bảng
+fetchTableData();
