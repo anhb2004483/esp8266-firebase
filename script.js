@@ -1,85 +1,80 @@
-// Import các hàm cần thiết từ SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
-// Cấu hình Firebase
+// Firebase configuration (using your updated Firebase credentials)
 const firebaseConfig = {
-    apiKey: "AIzaSyDXPAZ7Wejg29HJWlGk4HVYCSb-tQC_uOs",
-    authDomain: "espp-d81e2.firebaseapp.com",
-    databaseURL: "https://espp-d81e2-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "espp-d81e2",
-    storageBucket: "espp-d81e2.appspot.com",
-    messagingSenderId: "1031596671832",
-    appId: "1:1031596671832:web:827366acdcf47222ae1b2d",
-    measurementId: "G-L7ZYC7TE7W"
+    apiKey: "AIzaSyBI8Dfptxa5q3G6_GB1KfJZjWgU0lWEiDI",
+    authDomain: "espgas-d6120.firebaseapp.com",
+    databaseURL: "https://espgas-d6120-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "espgas-d6120",
+    storageBucket: "espgas-d6120.appspot.com",
+    messagingSenderId: "577421708651",
+    appId: "1:577421708651:web:cfc074f1ffb4761c45902e",
+    measurementId: "G-ZRRBCE50GS"
 };
 
-// Khởi tạo Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Đọc dữ liệu từ Firebase cho tên và mật khẩu
-const usernameInput = document.getElementById('username');
-const passwordInput = document.getElementById('password');
+// Elements
+const loginContainer = document.getElementById('login-container');
+const mainContainer = document.getElementById('main-container');
+const nameInput = document.getElementById('name-input');
+const passwordInput = document.getElementById('password-input');
 const loginBtn = document.getElementById('login-btn');
 const loginStatus = document.getElementById('login-status');
-const loginContainer = document.getElementById('login-container');
-const mainContent = document.getElementById('main-content');
 
-// Xử lý đăng nhập
-loginBtn.addEventListener('click', () => {
-    const enteredUsername = usernameInput.value;
-    const enteredPassword = passwordInput.value;
-
-    // Tham chiếu đến biến `name` và `password` trong Firebase
-    const nameRef = ref(database, 'name');
-    const passwordRef = ref(database, 'password');
-
-    // Đọc giá trị `name` và `password` từ Firebase
-    onValue(nameRef, (snapshot) => {
-        const storedUsername = snapshot.val();
-        if (storedUsername === enteredUsername) {
-            onValue(passwordRef, (snapshot) => {
-                const storedPassword = snapshot.val();
-                if (storedPassword === enteredPassword) {
-                    // Đăng nhập thành công
-                    loginStatus.textContent = "Đăng nhập thành công!";
-                    loginStatus.style.color = "green";
-                    loginContainer.style.display = "none"; // Ẩn form đăng nhập
-                    mainContent.style.display = "block";   // Hiển thị nội dung chính
-                } else {
-                    loginStatus.textContent = "Sai mật khẩu!";
-                    loginStatus.style.color = "red";
-                }
-            });
-        } else {
-            loginStatus.textContent = "Tên người dùng không đúng!";
-            loginStatus.style.color = "red";
-        }
-    });
-});
-
-// Đọc và hiển thị dữ liệu 'aaa' khi đăng nhập thành công
 const dataContainer = document.getElementById('data-container');
-const dataRef = ref(database, 'aaa');
-
-onValue(dataRef, (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-        dataContainer.innerHTML = `<p><strong>Dữ liệu aaa:</strong> ${data}</p>`;
-    } else {
-        dataContainer.innerHTML = `<p>Không có dữ liệu tại đường dẫn 'aaa'</p>`;
-    }
-}, (error) => {
-    console.error("Lỗi khi đọc dữ liệu từ Firebase:", error);
-    dataContainer.innerHTML = `<p>Đã xảy ra lỗi khi lấy dữ liệu: ${error.message}</p>`;
-});
-
-// Lưu dữ liệu từ người dùng vào biến `bbb`
 const inputData = document.getElementById('input-data');
 const sendDataBtn = document.getElementById('send-data-btn');
 const statusMessage = document.getElementById('status-message');
 
+// Handle login
+loginBtn.addEventListener('click', () => {
+    const enteredName = nameInput.value;
+    const enteredPassword = passwordInput.value;
+
+    // Reference to Firebase for name and password inside the 'user' node
+    const nameRef = ref(database, 'user/name');
+    const passwordRef = ref(database, 'user/password');
+
+    // Check the stored values in Firebase
+    onValue(nameRef, (nameSnapshot) => {
+        onValue(passwordRef, (passwordSnapshot) => {
+            const storedName = nameSnapshot.val();
+            const storedPassword = passwordSnapshot.val();
+
+            if (enteredName === storedName && enteredPassword === storedPassword) {
+                // Successful login
+                loginStatus.textContent = "Đăng nhập thành công!";
+                loginStatus.style.color = "green";
+                loginContainer.style.display = "none";
+                mainContainer.style.display = "block";
+
+                // Load data from Firebase
+                const dataRef = ref(database, 'aaa');
+                onValue(dataRef, (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        dataContainer.innerHTML = `<p><strong>Dữ liệu aaa:</strong> ${data}</p>`;
+                    } else {
+                        dataContainer.innerHTML = `<p>Không có dữ liệu tại đường dẫn 'aaa'</p>`;
+                    }
+                }, (error) => {
+                    console.error("Lỗi khi đọc dữ liệu từ Firebase:", error);
+                    dataContainer.innerHTML = `<p>Đã xảy ra lỗi khi lấy dữ liệu: ${error.message}</p>`;
+                });
+            } else {
+                // Failed login
+                loginStatus.textContent = "Tên hoặc mật khẩu không đúng!";
+                loginStatus.style.color = "red";
+            }
+        });
+    });
+});
+
+// Save new data to Firebase
 sendDataBtn.addEventListener('click', () => {
     const newData = inputData.value;
     if (newData) {
@@ -88,7 +83,7 @@ sendDataBtn.addEventListener('click', () => {
             .then(() => {
                 statusMessage.textContent = "Dữ liệu đã được gửi thành công!";
                 statusMessage.style.color = "green";
-                inputData.value = "";
+                inputData.value = ""; // Clear input
             })
             .catch((error) => {
                 console.error("Lỗi khi gửi dữ liệu:", error);
