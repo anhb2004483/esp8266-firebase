@@ -1,6 +1,6 @@
 // Import các hàm cần thiết từ SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 // Cấu hình Firebase
 const firebaseConfig = {
@@ -18,37 +18,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Tham chiếu các phần tử trong bảng
-const sn1Refs = {
-    object: document.getElementById('sn1-object-data'),
-    gas: document.getElementById('sn1-gas-data'),
-    gasThreshold: document.getElementById('sn1-gas-threshold-data'),
-    tempThreshold: document.getElementById('sn1-temp-threshold-data'),
-    khancap: document.getElementById('sn1-khancap-data')
-};
-const sn2Refs = {
-    object: document.getElementById('sn2-object-data'),
-    gas: document.getElementById('sn2-gas-data'),
-    gasThreshold: document.getElementById('sn2-gas-threshold-data'),
-    tempThreshold: document.getElementById('sn2-temp-threshold-data'),
-    khancap: document.getElementById('sn2-khancap-data')
-};
-const sn3Refs = {
-    object: document.getElementById('sn3-object-data'),
-    gas: document.getElementById('sn3-gas-data'),
-    gasThreshold: document.getElementById('sn3-gas-threshold-data'),
-    tempThreshold: document.getElementById('sn3-temp-threshold-data'),
-    khancap: document.getElementById('sn3-khancap-data')
-};
-const sn4Refs = {
-    object: document.getElementById('sn4-object-data'),
-    gas: document.getElementById('sn4-gas-data'),
-    gasThreshold: document.getElementById('sn4-gas-threshold-data'),
-    tempThreshold: document.getElementById('sn4-temp-threshold-data'),
-    khancap: document.getElementById('sn4-khancap-data')
-};
-
-// Hàm để đọc và hiển thị dữ liệu
+// Hàm để đọc và hiển thị dữ liệu từ Firebase
 const fetchDataForSensor = (sensorRef, refs) => {
     onValue(ref(database, `${sensorRef}/object`), (snapshot) => {
         refs.object.textContent = snapshot.val() || 'N/A';
@@ -67,11 +37,21 @@ const fetchDataForSensor = (sensorRef, refs) => {
     });
 };
 
-// Gọi hàm để lấy dữ liệu cho từng sensor
-fetchDataForSensor('SN1', sn1Refs);
-fetchDataForSensor('SN2', sn2Refs);
-fetchDataForSensor('SN3', sn3Refs);
-fetchDataForSensor('SN4', sn4Refs);
+// Hàm để cập nhật dữ liệu lên Firebase
+const updateThreshold = (sensorRef) => {
+    const gasThreshold = document.getElementById(`${sensorRef.toLowerCase()}-edit-gas-threshold`).value;
+    const tempThreshold = document.getElementById(`${sensorRef.toLowerCase()}-edit-temp-threshold`).value;
+    const khancap = document.getElementById(`${sensorRef.toLowerCase()}-edit-khancap`).checked;
+
+    if (gasThreshold && tempThreshold) {
+        set(ref(database, `${sensorRef}/Gas_threshold`), parseInt(gasThreshold));
+        set(ref(database, `${sensorRef}/Temp_threshold`), parseInt(tempThreshold));
+        set(ref(database, `${sensorRef}/khancap`), khancap);
+        alert(`Đã cập nhật dữ liệu cho ${sensorRef}`);
+    } else {
+        alert('Vui lòng điền đủ thông tin!');
+    }
+};
 
 // Đăng nhập
 const loginButton = document.getElementById('login-button');
@@ -93,16 +73,43 @@ loginButton.addEventListener('click', () => {
 
             if (username === dbUsername && password === dbPassword) {
                 loginMessage.textContent = 'Đăng nhập thành công!';
-                document.getElementById('login-container').style.display = 'none'; // Ẩn phần đăng nhập
-                document.getElementById('data-table').style.display = 'table'; // Hiện bảng dữ liệu
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('data-table').style.display = 'table';
             } else {
-                loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
+                loginMessage.textContent = 'Tên người dùng hoặc mật khẩu sai!';
             }
-        } else {
-            loginMessage.textContent = 'Không tìm thấy dữ liệu người dùng!';
         }
-    }, (error) => {
-        console.error("Lỗi khi đọc dữ liệu người dùng:", error);
-        loginMessage.textContent = 'Đã xảy ra lỗi khi lấy dữ liệu người dùng: ' + error.message;
+    });
+});
+
+// Cập nhật dữ liệu từng sensor
+document.addEventListener('DOMContentLoaded', () => {
+    fetchDataForSensor('SN1', {
+        object: document.getElementById('sn1-object-data'),
+        gas: document.getElementById('sn1-gas-data'),
+        gasThreshold: document.getElementById('sn1-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn1-temp-threshold-data'),
+        khancap: document.getElementById('sn1-khancap-data')
+    });
+    fetchDataForSensor('SN2', {
+        object: document.getElementById('sn2-object-data'),
+        gas: document.getElementById('sn2-gas-data'),
+        gasThreshold: document.getElementById('sn2-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn2-temp-threshold-data'),
+        khancap: document.getElementById('sn2-khancap-data')
+    });
+    fetchDataForSensor('SN3', {
+        object: document.getElementById('sn3-object-data'),
+        gas: document.getElementById('sn3-gas-data'),
+        gasThreshold: document.getElementById('sn3-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn3-temp-threshold-data'),
+        khancap: document.getElementById('sn3-khancap-data')
+    });
+    fetchDataForSensor('SN4', {
+        object: document.getElementById('sn4-object-data'),
+        gas: document.getElementById('sn4-gas-data'),
+        gasThreshold: document.getElementById('sn4-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn4-temp-threshold-data'),
+        khancap: document.getElementById('sn4-khancap-data')
     });
 });
