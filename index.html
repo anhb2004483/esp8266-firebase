@@ -11,8 +11,16 @@
     <script type="module" src="script.js"></script>
 </head>
 <body>
+    <h1>Đăng Nhập</h1>
+    <div id="login-container">
+        <input type="text" id="username" placeholder="Tên người dùng" required>
+        <input type="password" id="password" placeholder="Mật khẩu" required>
+        <button id="login-button">Đăng Nhập</button>
+        <div id="login-message"></div>
+    </div>
+
     <h1>Dữ Liệu từ Firebase</h1>
-    <table id="data-table">
+    <table id="data-table" style="display: none;">
         <thead>
             <tr>
                 <th>Sensor</th>
