@@ -13,7 +13,7 @@ h1 {
 
 table {
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     border-collapse: collapse;
     background-color: #fff;
@@ -41,7 +41,7 @@ tr:last-child td {
     border-bottom: none;
 }
 
-td#object-data, td#gas-data, td#gas-threshold-data, td#khancap-data {
+td {
     text-align: center;
 }
 
