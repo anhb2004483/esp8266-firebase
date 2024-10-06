@@ -21,17 +21,32 @@ const database = getDatabase(app);
 // Function to fetch and display data from Firebase
 async function fetchData() {
   const sn1Ref = ref(database, 'SN1'); // Reference to SN1 object
+  const csnRef = ref(database, 'csn'); // Reference to csn object
   try {
-    const snapshot = await get(sn1Ref);
-    if (snapshot.exists()) {
-      const sn1Data = snapshot.val();
+    // Fetch SN1 data
+    const sn1Snapshot = await get(sn1Ref);
+    if (sn1Snapshot.exists()) {
+      const sn1Data = sn1Snapshot.val();
 
-      // Display the data on the web page
+      // Display the SN1 data on the web page
       document.getElementById('sn1-object').innerText = JSON.stringify(sn1Data);
       document.getElementById('sn1-gas').innerText = sn1Data.gas;
       document.getElementById('sn1-sn').innerText = sn1Data.SN;
     } else {
-      console.log("No data available");
+      console.log("No SN1 data available");
+    }
+
+    // Fetch CSN data
+    const csnSnapshot = await get(csnRef);
+    if (csnSnapshot.exists()) {
+      const csnData = csnSnapshot.val();
+
+      // Display the CSN data on the web page
+      document.getElementById('csn-object').innerText = JSON.stringify(csnData);
+      document.getElementById('csn-gas').innerText = csnData.gas;
+      document.getElementById('csn-sn').innerText = csnData.SN;
+    } else {
+      console.log("No CSN data available");
     }
   } catch (error) {
     console.error("Error fetching data: ", error);
