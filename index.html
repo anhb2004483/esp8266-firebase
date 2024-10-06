@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đọc Dữ Liệu từ Firebase</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
     <script type="module" src="script.js"></script>
@@ -28,7 +29,7 @@
                 <th>Gas Threshold</th>
                 <th>Temp Threshold</th>
                 <th>Khẩn Cấp</th>
-                <th>Thao Tác</th> <!-- Thêm cột Thao Tác -->
+                <th>Chỉnh Sửa</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +42,13 @@
                 <td id="sn1-temp-threshold-data">Loading...</td>
                 <td id="sn1-khancap-data">true</td>
                 <td>
-                    <button class="edit-button" data-sensor="SN1">Chỉnh Sửa</button>
+                    <input type="number" id="sn1-gas-threshold-input" placeholder="Gas Threshold">
+                    <input type="number" id="sn1-temp-threshold-input" placeholder="Temp Threshold">
+                    <select id="sn1-khancap-input">
+                        <option value="true">Khẩn Cấp</option>
+                        <option value="false">Không Khẩn Cấp</option>
+                    </select>
+                    <button class="update-button" data-sensor="SN1">Cập Nhật</button>
                 </td>
             </tr>
             <!-- SN2 Row -->
@@ -53,7 +60,13 @@
                 <td id="sn2-temp-threshold-data">Loading...</td>
                 <td id="sn2-khancap-data">true</td>
                 <td>
-                    <button class="edit-button" data-sensor="SN2">Chỉnh Sửa</button>
+                    <input type="number" id="sn2-gas-threshold-input" placeholder="Gas Threshold">
+                    <input type="number" id="sn2-temp-threshold-input" placeholder="Temp Threshold">
+                    <select id="sn2-khancap-input">
+                        <option value="true">Khẩn Cấp</option>
+                        <option value="false">Không Khẩn Cấp</option>
+                    </select>
+                    <button class="update-button" data-sensor="SN2">Cập Nhật</button>
                 </td>
             </tr>
             <!-- SN3 Row -->
@@ -65,7 +78,13 @@
                 <td id="sn3-temp-threshold-data">Loading...</td>
                 <td id="sn3-khancap-data">true</td>
                 <td>
-                    <button class="edit-button" data-sensor="SN3">Chỉnh Sửa</button>
+                    <input type="number" id="sn3-gas-threshold-input" placeholder="Gas Threshold">
+                    <input type="number" id="sn3-temp-threshold-input" placeholder="Temp Threshold">
+                    <select id="sn3-khancap-input">
+                        <option value="true">Khẩn Cấp</option>
+                        <option value="false">Không Khẩn Cấp</option>
+                    </select>
+                    <button class="update-button" data-sensor="SN3">Cập Nhật</button>
                 </td>
             </tr>
             <!-- SN4 Row -->
@@ -77,26 +96,16 @@
                 <td id="sn4-temp-threshold-data">Loading...</td>
                 <td id="sn4-khancap-data">true</td>
                 <td>
-                    <button class="edit-button" data-sensor="SN4">Chỉnh Sửa</button>
+                    <input type="number" id="sn4-gas-threshold-input" placeholder="Gas Threshold">
+                    <input type="number" id="sn4-temp-threshold-input" placeholder="Temp Threshold">
+                    <select id="sn4-khancap-input">
+                        <option value="true">Khẩn Cấp</option>
+                        <option value="false">Không Khẩn Cấp</option>
+                    </select>
+                    <button class="update-button" data-sensor="SN4">Cập Nhật</button>
                 </td>
             </tr>
         </tbody>
     </table>
-
-    <!-- Modal Chỉnh Sửa -->
-    <div id="edit-modal" style="display:none;">
-        <h2>Chỉnh Sửa Thông Tin</h2>
-        <label for="gas-threshold">Gas Threshold:</label>
-        <input type="number" id="gas-threshold" placeholder="Nhập Gas Threshold" required>
-        <label for="temp-threshold">Temp Threshold:</label>
-        <input type="number" id="temp-threshold" placeholder="Nhập Temp Threshold" required>
-        <label for="khancap">Khẩn Cấp:</label>
-        <select id="khancap">
-            <option value="true">Có</option>
-            <option value="false">Không</option>
-        </select>
-        <button id="save-button">Lưu</button>
-        <button id="close-button">Đóng</button>
-    </div>
 </body>
 </html>
