@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đọc và Ghi Dữ Liệu Firebase</title>
+    <title>Đăng Nhập</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
@@ -11,13 +11,25 @@
     <script type="module" src="script.js"></script>
 </head>
 <body>
-    <h1>Dữ Liệu từ Firebase</h1>
-    <div id="data-container">Loading...</div>
+    <!-- Form đăng nhập -->
+    <div id="login-container">
+        <h1>Đăng Nhập</h1>
+        <input type="text" id="username" placeholder="Tên người dùng">
+        <input type="password" id="password" placeholder="Mật khẩu">
+        <button id="login-btn">Đăng nhập</button>
+        <p id="login-status"></p>
+    </div>
 
-    <h2>Nhập dữ liệu mới cho biến bbb:</h2>
-    <input type="text" id="input-data" placeholder="Nhập dữ liệu cho bbb">
-    <button id="send-data-btn">Gửi dữ liệu</button>
+    <!-- Nội dung chính -->
+    <div id="main-content" style="display: none;">
+        <h1>Dữ Liệu từ Firebase</h1>
+        <div id="data-container">Loading...</div>
 
-    <p id="status-message"></p>
+        <h2>Nhập dữ liệu mới cho biến bbb:</h2>
+        <input type="text" id="input-data" placeholder="Nhập dữ liệu cho bbb">
+        <button id="send-data-btn">Gửi dữ liệu</button>
+
+        <p id="status-message"></p>
+    </div>
 </body>
 </html>
