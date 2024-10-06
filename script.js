@@ -1,4 +1,3 @@
-// Import các hàm cần thiết từ SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
@@ -18,7 +17,39 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Hàm để đọc và hiển thị dữ liệu từ Firebase
+// Tham chiếu các phần tử trong bảng
+const snRefs = {
+    SN1: {
+        object: document.getElementById('sn1-object-data'),
+        gas: document.getElementById('sn1-gas-data'),
+        gasThreshold: document.getElementById('sn1-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn1-temp-threshold-data'),
+        khancap: document.getElementById('sn1-khancap-data')
+    },
+    SN2: {
+        object: document.getElementById('sn2-object-data'),
+        gas: document.getElementById('sn2-gas-data'),
+        gasThreshold: document.getElementById('sn2-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn2-temp-threshold-data'),
+        khancap: document.getElementById('sn2-khancap-data')
+    },
+    SN3: {
+        object: document.getElementById('sn3-object-data'),
+        gas: document.getElementById('sn3-gas-data'),
+        gasThreshold: document.getElementById('sn3-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn3-temp-threshold-data'),
+        khancap: document.getElementById('sn3-khancap-data')
+    },
+    SN4: {
+        object: document.getElementById('sn4-object-data'),
+        gas: document.getElementById('sn4-gas-data'),
+        gasThreshold: document.getElementById('sn4-gas-threshold-data'),
+        tempThreshold: document.getElementById('sn4-temp-threshold-data'),
+        khancap: document.getElementById('sn4-khancap-data')
+    }
+};
+
+// Hàm để đọc và hiển thị dữ liệu
 const fetchDataForSensor = (sensorRef, refs) => {
     onValue(ref(database, `${sensorRef}/object`), (snapshot) => {
         refs.object.textContent = snapshot.val() || 'N/A';
@@ -33,92 +64,50 @@ const fetchDataForSensor = (sensorRef, refs) => {
         refs.tempThreshold.textContent = snapshot.val() || 'N/A';
     });
     onValue(ref(database, `${sensorRef}/khancap`), (snapshot) => {
-        refs.khancap.textContent = snapshot.val() ? 'Có' : 'Không';
+        refs.khancap.textContent = snapshot.val() || 'N/A';
     });
 };
 
-// Hàm để cập nhật dữ liệu lên Firebase
-const updateThreshold = (sensorRef) => {
-    const gasThreshold = document.getElementById(`${sensorRef.toLowerCase()}-edit-gas-threshold`).value;
-    const tempThreshold = document.getElementById(`${sensorRef.toLowerCase()}-edit-temp-threshold`).value;
-    const khancap = document.getElementById(`${sensorRef.toLowerCase()}-edit-khancap`).checked;
+// Gọi hàm để lấy dữ liệu cho từng sensor
+fetchDataForSensor('SN1', snRefs.SN1);
+fetchDataForSensor('SN2', snRefs.SN2);
+fetchDataForSensor('SN3', snRefs.SN3);
+fetchDataForSensor('SN4', snRefs.SN4);
 
-    if (gasThreshold && tempThreshold) {
-        set(ref(database, `${sensorRef}/Gas_threshold`), parseInt(gasThreshold))
-            .then(() => console.log(`${sensorRef} Gas threshold updated`))
-            .catch((error) => console.error("Failed to update gas threshold:", error));
+// Xử lý sự kiện cho nút chỉnh sửa
+const editButtons = document.querySelectorAll('.edit-button');
+let currentSensor = null;
 
-        set(ref(database, `${sensorRef}/Temp_threshold`), parseInt(tempThreshold))
-            .then(() => console.log(`${sensorRef} Temp threshold updated`))
-            .catch((error) => console.error("Failed to update temp threshold:", error));
+editButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        currentSensor = event.target.getAttribute('data-sensor');
+        // Hiển thị modal chỉnh sửa
+        document.getElementById('edit-modal').style.display = 'block';
 
-        set(ref(database, `${sensorRef}/khancap`), khancap)
-            .then(() => console.log(`${sensorRef} Khẩn cấp updated`))
-            .catch((error) => console.error("Failed to update khẩn cấp:", error));
-
-        alert(`Đã cập nhật dữ liệu cho ${sensorRef}`);
-    } else {
-        alert('Vui lòng điền đủ thông tin!');
-    }
-};
-
-// Đăng nhập
-const loginButton = document.getElementById('login-button');
-const loginMessage = document.getElementById('login-message');
-
-loginButton.addEventListener('click', () => {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    // Tham chiếu đến tên người dùng và mật khẩu trong Firebase
-    const userRef = ref(database, 'user');
-
-    onValue(userRef, (snapshot) => {
-        const userData = snapshot.val();
-
-        if (userData) {
-            const dbUsername = userData.name;
-            const dbPassword = userData.password;
-
-            if (username === dbUsername && password === dbPassword) {
-                loginMessage.textContent = 'Đăng nhập thành công!';
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('data-table').style.display = 'table';
-            } else {
-                loginMessage.textContent = 'Tên người dùng hoặc mật khẩu sai!';
-            }
-        }
+        // Lấy giá trị hiện tại từ Firebase
+        const sensorData = snRefs[currentSensor];
+        document.getElementById('gas-threshold').value = sensorData.gasThreshold.textContent;
+        document.getElementById('temp-threshold').value = sensorData.tempThreshold.textContent;
+        document.getElementById('khancap').value = sensorData.khancap.textContent === 'true' ? 'true' : 'false';
     });
 });
 
-// Cập nhật dữ liệu từng sensor
-document.addEventListener('DOMContentLoaded', () => {
-    fetchDataForSensor('SN1', {
-        object: document.getElementById('sn1-object-data'),
-        gas: document.getElementById('sn1-gas-data'),
-        gasThreshold: document.getElementById('sn1-gas-threshold-data'),
-        tempThreshold: document.getElementById('sn1-temp-threshold-data'),
-        khancap: document.getElementById('sn1-khancap-data')
-    });
-    fetchDataForSensor('SN2', {
-        object: document.getElementById('sn2-object-data'),
-        gas: document.getElementById('sn2-gas-data'),
-        gasThreshold: document.getElementById('sn2-gas-threshold-data'),
-        tempThreshold: document.getElementById('sn2-temp-threshold-data'),
-        khancap: document.getElementById('sn2-khancap-data')
-    });
-    fetchDataForSensor('SN3', {
-        object: document.getElementById('sn3-object-data'),
-        gas: document.getElementById('sn3-gas-data'),
-        gasThreshold: document.getElementById('sn3-gas-threshold-data'),
-        tempThreshold: document.getElementById('sn3-temp-threshold-data'),
-        khancap: document.getElementById('sn3-khancap-data')
-    });
-    fetchDataForSensor('SN4', {
-        object: document.getElementById('sn4-object-data'),
-        gas: document.getElementById('sn4-gas-data'),
-        gasThreshold: document.getElementById('sn4-gas-threshold-data'),
-        tempThreshold: document.getElementById('sn4-temp-threshold-data'),
-        khancap: document.getElementById('sn4-khancap-data')
-    });
+// Lưu thay đổi
+document.getElementById('save-button').addEventListener('click', () => {
+    const gasThreshold = document.getElementById('gas-threshold').value;
+    const tempThreshold = document.getElementById('temp-threshold').value;
+    const khancap = document.getElementById('khancap').value === 'true';
+
+    // Cập nhật dữ liệu lên Firebase
+    set(ref(database, `${currentSensor}/Gas_threshold`), gasThreshold);
+    set(ref(database, `${currentSensor}/Temp_threshold`), tempThreshold);
+    set(ref(database, `${currentSensor}/khancap`), khancap);
+
+    // Đóng modal
+    document.getElementById('edit-modal').style.display = 'none';
+});
+
+// Đóng modal
+document.getElementById('close-button').addEventListener('click', () => {
+    document.getElementById('edit-modal').style.display = 'none';
 });
