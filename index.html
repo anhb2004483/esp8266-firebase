@@ -9,9 +9,11 @@
     <script type="module" src="script.js"></script>
 </head>
 <body>
-    <h1>Nhập Giá Trị</h1>
+    <h1>Nhập Giá Trị cho SN1</h1>
     <div id="input-container">
-        <input type="text" id="value-input" placeholder="Nhập giá trị cho a" required>
+        <input type="number" id="khancap-input" placeholder="Nhập giá trị cho khẩn cấp" required>
+        <input type="number" id="gas-threshold-input" placeholder="Nhập giá trị cho Gas Threshold" required>
+        <input type="number" id="temp-threshold-input" placeholder="Nhập giá trị cho Temp Threshold" required>
         <button id="send-button">Gửi Giá Trị</button>
         <div id="input-message"></div>
     </div>
