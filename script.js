@@ -1,8 +1,4 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
-
-// Your web app's Firebase configuration
+// Khởi tạo Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyB2bRIDe_WmC4PrqNw0Pc3NmpB8RN49GlA",
     authDomain: "lvtn-1daf8.firebaseapp.com",
@@ -14,9 +10,9 @@ const firebaseConfig = {
     measurementId: "G-4QZ1WRMGW0"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+// Khởi tạo Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.getDatabase(app);
 
 // Lấy các phần tử HTML
 const submitBtn = document.getElementById('submitBtn');
@@ -27,8 +23,8 @@ const messageDiv = document.getElementById('message');
 submitBtn.addEventListener('click', () => {
     const valueA = valueAInput.value;
     if (valueA) {
-        const dbRef = ref(database, 'values/valueA');
-        set(dbRef, {
+        const dbRef = firebase.ref(database, 'values/valueA');
+        firebase.set(dbRef, {
             value: valueA
         }).then(() => {
             messageDiv.innerText = "Giá trị A đã được gửi thành công!";
