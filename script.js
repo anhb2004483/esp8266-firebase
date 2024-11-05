@@ -1,3 +1,7 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set } from "firebase/database";
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyB2bRIDe_WmC4PrqNw0Pc3NmpB8RN49GlA",
@@ -11,22 +15,28 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-// Handle form submission
-document.getElementById('dataForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+// Lấy các phần tử HTML
+const submitBtn = document.getElementById('submitBtn');
+const valueAInput = document.getElementById('valueA');
+const messageDiv = document.getElementById('message');
 
-    const bbbValue = document.getElementById('bbb').value;
-
-    // Gửi dữ liệu vào Firebase
-    firebase.database().ref('SN1/bbb').set({
-        value: bbbValue
-    }).then(() => {
-        document.getElementById('message').textContent = 'Dữ liệu đã được gửi thành công!';
-        document.getElementById('dataForm').reset();
-    }).catch((error) => {
-        document.getElementById('message').textContent = 'Có lỗi xảy ra: ' + error.message;
-    });
+// Gửi dữ liệu lên Firebase khi nhấn nút
+submitBtn.addEventListener('click', () => {
+    const valueA = valueAInput.value;
+    if (valueA) {
+        const dbRef = ref(database, 'values/valueA');
+        set(dbRef, {
+            value: valueA
+        }).then(() => {
+            messageDiv.innerText = "Giá trị A đã được gửi thành công!";
+            valueAInput.value = ""; // Xóa trường nhập
+        }).catch((error) => {
+            messageDiv.innerText = "Có lỗi xảy ra: " + error.message;
+        });
+    } else {
+        messageDiv.innerText = "Vui lòng nhập giá trị A.";
+    }
 });
