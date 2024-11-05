@@ -3,23 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi Dữ Liệu vào Firebase</title>
+    <title>Gửi Dữ Liệu Lên Firebase</title>
     <link rel="stylesheet" href="styles.css">
+    <script type="module" src="script.js" defer></script>
 </head>
 <body>
     <div class="container">
-        <h1>Nhập Dữ Liệu</h1>
-        <form id="dataForm">
-            <label for="bbb">Nhập dữ liệu cho biến bbb:</label>
-            <input type="text" id="bbb" name="bbb" required>
-            <button type="submit">Gửi</button>
-        </form>
-        <p id="message"></p>
+        <h1>Nhập Giá Trị A</h1>
+        <input type="number" id="valueA" placeholder="Nhập giá trị A">
+        <button id="submitBtn">Gửi</button>
+        <div id="message"></div>
     </div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
