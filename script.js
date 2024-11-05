@@ -44,7 +44,7 @@ const sendKhancapStatus = () => {
 // Gửi giá trị khi nhấn nút bật/tắt
 khancapToggle.addEventListener('click', () => {
     khancapState = (khancapState === -1) ? -2 : -1; // Chuyển đổi trạng thái
-    khancapToggle.textContent = (khancapState === -2) ? 'Tắt Khẩn Cấp' : 'Bật Khẩn Cấp'; // Cập nhật văn bản nút
+    khancapToggle.textContent = (khancapState === -2) ? 'Nhấn để Tắt Khẩn Cấp' : 'Nhấn để Bật Khẩn Cấp'; // Cập nhật văn bản nút
     sendKhancapStatus(); // Gửi trạng thái khẩn cấp lên Firebase
 });
 
