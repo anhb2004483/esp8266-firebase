@@ -3,15 +3,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 // Cấu hình Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyB2bRIDe_WmC4PrqNw0Pc3NmpB8RN49GlA",
-    authDomain: "lvtn-1daf8.firebaseapp.com",
-    databaseURL: "https://lvtn-1daf8-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "lvtn-1daf8",
-    storageBucket: "lvtn-1daf8.appspot.com",
-    messagingSenderId: "714911677725",
-    appId: "1:714911677725:web:077d406bd928413b3475f4",
-    measurementId: "G-4QZ1WRMGW0"
+const firebaseConfig = { 
+  apiKey : "AIzaSyB2bRIDe_WmC4PrqNw0Pc3NmpB8RN49GlA" , 
+  authDomain : "lvtn-1daf8.firebaseapp.com" , 
+  databaseURL : "https://lvtn-1daf8-default-rtdb.asia-southeast1.firebaseddatabase.app" , 
+  projectId : "lvtn-1daf8" , 
+  storageBucket : "lvtn-1daf8.firebasestorage.app" , 
+  tin nhắnSenderId : "714911677725" , 
+  ứng dụngId : "1:714911677725:web:077d406bd928413b3475f4" , 
+  measurementId : "G-4QZ1WRMGW0" 
 };
 
 // Khởi tạo Firebase
