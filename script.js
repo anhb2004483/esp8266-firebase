@@ -26,17 +26,28 @@ const inputMessage = document.getElementById('input-message');
 
 sendButton.addEventListener('click', () => {
   const valueInput = document.getElementById('value-input').value;
-  
+  const numericValue = Number(valueInput); // Chuyển đổi giá trị nhập thành số
+
+  // Kiểm tra xem giá trị có phải là số không
+  if (isNaN(numericValue)) {
+    inputMessage.textContent = 'Vui lòng nhập một giá trị số hợp lệ!';
+    inputMessage.classList.add('error');
+    inputMessage.classList.remove('success'); // Bỏ lớp thành công nếu có
+    return; // Dừng thực hiện nếu không phải số
+  }
+
   // Cập nhật giá trị a vào Firebase
   const valueRef = ref(database, 'SN1/khancap'); // Thay đổi đường dẫn nếu cần thiết
-  set(valueRef, valueInput)
+  set(valueRef, numericValue)
     .then(() => {
       inputMessage.textContent = 'Giá trị đã được gửi thành công!';
       inputMessage.classList.add('success');
+      inputMessage.classList.remove('error'); // Bỏ lớp lỗi nếu có
     })
     .catch((error) => {
       console.error("Lỗi khi gửi dữ liệu:", error);
       inputMessage.textContent = 'Đã xảy ra lỗi khi gửi dữ liệu: ' + error.message;
       inputMessage.classList.add('error');
+      inputMessage.classList.remove('success'); // Bỏ lớp thành công nếu có
     });
 });
