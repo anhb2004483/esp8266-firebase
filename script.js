@@ -1,38 +1,44 @@
-// Khởi tạo Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyB2bRIDe_WmC4PrqNw0Pc3NmpB8RN49GlA",
-    authDomain: "lvtn-1daf8.firebaseapp.com",
-    databaseURL: "https://lvtn-1daf8-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "lvtn-1daf8",
-    storageBucket: "lvtn-1daf8.firebasestorage.app",
-    messagingSenderId: "714911677725",
-    appId: "1:714911677725:web:077d406bd928413b3475f4",
-    measurementId: "G-4QZ1WRMGW0"
-};
+// Đăng nhập và gửi giá trị a lên Firebase
+loginButton.addEventListener('click', () => {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const a = document.getElementById('input-a').value; // Lấy giá trị từ trường mới
 
-// Khởi tạo Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const database = firebase.getDatabase(app);
+  const userRef = ref(database, 'user');
 
-// Lấy các phần tử HTML
-const submitBtn = document.getElementById('submitBtn');
-const valueAInput = document.getElementById('valueA');
-const messageDiv = document.getElementById('message');
+  onValue(userRef, (snapshot) => {
+    const userData = snapshot.val();
 
-// Gửi dữ liệu lên Firebase khi nhấn nút
-submitBtn.addEventListener('click', () => {
-    const valueA = valueAInput.value;
-    if (valueA) {
-        const dbRef = firebase.ref(database, 'values/valueA');
-        firebase.set(dbRef, {
-            value: valueA
-        }).then(() => {
-            messageDiv.innerText = "Giá trị A đã được gửi thành công!";
-            valueAInput.value = ""; // Xóa trường nhập
-        }).catch((error) => {
-            messageDiv.innerText = "Có lỗi xảy ra: " + error.message;
-        });
+    if (userData) {
+      const dbUsername = userData.name;
+      const dbPassword = userData.password;
+
+      if (username === dbUsername && password === dbPassword) {
+        // Gửi giá trị a lên Firebase
+        const aRef = ref(database, 'values/a'); // Đường dẫn trong Firebase
+        set(aRef, a)  // Hàm set để gửi giá trị a lên Firebase
+          .then(() => {
+            loginMessage.textContent = 'Đăng nhập thành công và giá trị a đã được gửi!';
+            loginMessage.classList.add('success');
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('data-table').style.display = 'table';
+          })
+          .catch((error) => {
+            console.error("Lỗi khi gửi giá trị a lên Firebase:", error);
+            loginMessage.textContent = 'Đã xảy ra lỗi khi gửi giá trị a: ' + error.message;
+            loginMessage.classList.add('error');
+          });
+      } else {
+        loginMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng!';
+        loginMessage.classList.add('error');
+      }
     } else {
-        messageDiv.innerText = "Vui lòng nhập giá trị A.";
+      loginMessage.textContent = 'Không tìm thấy dữ liệu người dùng!';
+      loginMessage.classList.add('error');
     }
+  }, (error) => {
+    console.error("Lỗi khi đọc dữ liệu người dùng:", error);
+    loginMessage.textContent = 'Đã xảy ra lỗi khi lấy dữ liệu người dùng: ' + error.message;
+    loginMessage.classList.add('error');
+  });
 });
