@@ -25,29 +25,38 @@ const sendButton = document.getElementById('send-button');
 const inputMessage = document.getElementById('input-message');
 
 sendButton.addEventListener('click', () => {
-  const valueInput = document.getElementById('value-input').value;
-  const numericValue = Number(valueInput); // Chuyển đổi giá trị nhập thành số
+  const khancapValue = Number(document.getElementById('khancap-input').value);
+  const gasThresholdValue = Number(document.getElementById('gas-threshold-input').value);
+  const tempThresholdValue = Number(document.getElementById('temp-threshold-input').value);
 
-  // Kiểm tra xem giá trị có phải là số không
-  if (isNaN(numericValue)) {
-    inputMessage.textContent = 'Vui lòng nhập một giá trị số hợp lệ!';
+  // Kiểm tra xem các giá trị có phải là số không
+  if (isNaN(khancapValue) || isNaN(gasThresholdValue) || isNaN(tempThresholdValue)) {
+    inputMessage.textContent = 'Vui lòng nhập các giá trị số hợp lệ!';
     inputMessage.classList.add('error');
     inputMessage.classList.remove('success'); // Bỏ lớp thành công nếu có
     return; // Dừng thực hiện nếu không phải số
   }
 
-  // Cập nhật giá trị a vào Firebase
-  const valueRef = ref(database, 'SN1/khancap'); // Thay đổi đường dẫn nếu cần thiết
-  set(valueRef, numericValue)
-    .then(() => {
-      inputMessage.textContent = 'Giá trị đã được gửi thành công!';
-      inputMessage.classList.add('success');
-      inputMessage.classList.remove('error'); // Bỏ lớp lỗi nếu có
-    })
-    .catch((error) => {
-      console.error("Lỗi khi gửi dữ liệu:", error);
-      inputMessage.textContent = 'Đã xảy ra lỗi khi gửi dữ liệu: ' + error.message;
-      inputMessage.classList.add('error');
-      inputMessage.classList.remove('success'); // Bỏ lớp thành công nếu có
-    });
+  // Cập nhật giá trị vào Firebase
+  const khancapRef = ref(database, 'SN1/khancap');
+  const gasThresholdRef = ref(database, 'SN1/Gas_threshold');
+  const tempThresholdRef = ref(database, 'SN1/Temp_threshold');
+
+  // Gửi từng giá trị lên Firebase
+  Promise.all([
+    set(khancapRef, khancapValue),
+    set(gasThresholdRef, gasThresholdValue),
+    set(tempThresholdRef, tempThresholdValue)
+  ])
+  .then(() => {
+    inputMessage.textContent = 'Giá trị đã được gửi thành công!';
+    inputMessage.classList.add('success');
+    inputMessage.classList.remove('error'); // Bỏ lớp lỗi nếu có
+  })
+  .catch((error) => {
+    console.error("Lỗi khi gửi dữ liệu:", error);
+    inputMessage.textContent = 'Đã xảy ra lỗi khi gửi dữ liệu: ' + error.message;
+    inputMessage.classList.add('error');
+    inputMessage.classList.remove('success'); // Bỏ lớp thành công nếu có
+  });
 });
