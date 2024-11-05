@@ -25,14 +25,27 @@ let khancapState = -1; // -1 là OFF, -2 là ON
 
 // Xử lý sự kiện nhấn nút On/Off
 const khancapToggle = document.getElementById('khancap-toggle');
+const sensorSelect = document.getElementById('sensor-select');
+
+// Hàm gửi trạng thái khẩn cấp lên Firebase
+const sendKhancapStatus = () => {
+    const selectedSensor = sensorSelect.value;
+    const khancapRef = ref(database, `${selectedSensor}/khancap`);
+    
+    set(khancapRef, khancapState)
+        .then(() => {
+            console.log(`Trạng thái khẩn cấp đã được gửi cho ${selectedSensor}: ${khancapState}`);
+        })
+        .catch((error) => {
+            console.error("Lỗi khi gửi trạng thái khẩn cấp:", error);
+        });
+};
+
+// Gửi giá trị khi nhấn nút bật/tắt
 khancapToggle.addEventListener('click', () => {
-    if (khancapState === -1) {
-        khancapState = -2; // Bật khẩn cấp
-        khancapToggle.textContent = 'Tắt Khẩn Cấp'; // Cập nhật văn bản nút
-    } else {
-        khancapState = -1; // Tắt khẩn cấp
-        khancapToggle.textContent = 'Bật Khẩn Cấp'; // Cập nhật văn bản nút
-    }
+    khancapState = (khancapState === -1) ? -2 : -1; // Chuyển đổi trạng thái
+    khancapToggle.textContent = (khancapState === -2) ? 'Tắt Khẩn Cấp' : 'Bật Khẩn Cấp'; // Cập nhật văn bản nút
+    sendKhancapStatus(); // Gửi trạng thái khẩn cấp lên Firebase
 });
 
 // Gửi giá trị vào Firebase
@@ -40,6 +53,7 @@ const sendButton = document.getElementById('send-button');
 const inputMessage = document.getElementById('input-message');
 
 sendButton.addEventListener('click', () => {
+    const selectedSensor = sensorSelect.value; // Lấy giá trị sensor đã chọn
     const gasThresholdValue = Number(document.getElementById('gas-threshold-input').value);
     const tempThresholdValue = Number(document.getElementById('temp-threshold-input').value);
 
@@ -52,13 +66,11 @@ sendButton.addEventListener('click', () => {
     }
 
     // Cập nhật giá trị vào Firebase
-    const khancapRef = ref(database, 'SN1/khancap');
-    const gasThresholdRef = ref(database, 'SN1/Gas_threshold');
-    const tempThresholdRef = ref(database, 'SN1/Temp_threshold');
+    const gasThresholdRef = ref(database, `${selectedSensor}/Gas_threshold`);
+    const tempThresholdRef = ref(database, `${selectedSensor}/Temp_threshold`);
 
     // Gửi từng giá trị lên Firebase
     Promise.all([
-        set(khancapRef, khancapState),
         set(gasThresholdRef, gasThresholdValue),
         set(tempThresholdRef, tempThresholdValue)
     ])
