@@ -52,6 +52,17 @@ sendButton.addEventListener('click', () => {
     inputMessage.textContent = 'Giá trị đã được gửi thành công!';
     inputMessage.classList.add('success');
     inputMessage.classList.remove('error'); // Bỏ lớp lỗi nếu có
+
+    // Xóa giá trị đã nhập
+    document.getElementById('khancap-input').value = '';
+    document.getElementById('gas-threshold-input').value = '';
+    document.getElementById('temp-threshold-input').value = '';
+
+    // Làm cho thông báo biến mất sau 2 giây
+    setTimeout(() => {
+      inputMessage.textContent = '';
+      inputMessage.classList.remove('success');
+    }, 2000);
   })
   .catch((error) => {
     console.error("Lỗi khi gửi dữ liệu:", error);
