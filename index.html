@@ -1,24 +1,32 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi Dữ Liệu vào Firebase</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Nhập Dữ Liệu</h1>
-        <form id="dataForm">
-            <label for="bbb">Nhập dữ liệu cho biến bbb:</label>
-            <input type="text" id="bbb" name="bbb" required>
-            <button type="submit">Gửi</button>
-        </form>
-        <p id="message"></p>
-    </div>
-    
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyB2bRIDe_WmC4PrqNw0Pc3NmpB8RN49GlA",
+    authDomain: "lvtn-1daf8.firebaseapp.com",
+    databaseURL: "https://lvtn-1daf8-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "lvtn-1daf8",
+    storageBucket: "lvtn-1daf8.firebasestorage.app",
+    messagingSenderId: "714911677725",
+    appId: "1:714911677725:web:077d406bd928413b3475f4",
+    measurementId: "G-4QZ1WRMGW0"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Handle form submission
+document.getElementById('dataForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const bbbValue = document.getElementById('bbb').value;
+
+    // Gửi dữ liệu vào Firebase
+    firebase.database().ref('SN1/bbb').set({
+        value: bbbValue
+    }).then(() => {
+        document.getElementById('message').textContent = 'Dữ liệu đã được gửi thành công!';
+        document.getElementById('dataForm').reset();
+    }).catch((error) => {
+        document.getElementById('message').textContent = 'Có lỗi xảy ra: ' + error.message;
+    });
+});
