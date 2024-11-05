@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đọc Dữ Liệu từ Firebase</title>
+    <title>Gửi Giá Trị vào Firebase</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Firebase SDK -->
     <script type="module" src="script.js"></script>
@@ -15,53 +15,5 @@
         <button id="send-button">Gửi Giá Trị</button>
         <div id="input-message"></div>
     </div>
-
-    <h1>Dữ Liệu từ Firebase</h1>
-    <table id="data-table" style="display: none;">
-        <thead>
-            <tr>
-                <th>Sensor</th>
-                <th>Object</th>
-                <th>Gas</th>
-                <th>Gas Threshold</th>
-                <th>Temp Threshold</th>
-                <th>Khẩn Cấp</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>SN1</td>
-                <td id="sn1-object-data">Loading...</td>
-                <td id="sn1-gas-data">Loading...</td>
-                <td id="sn1-gas-threshold-data">Loading...</td>
-                <td id="sn1-temp-threshold-data">Loading...</td>
-                <td id="sn1-khancap-data">Loading...</td>
-            </tr>
-            <tr>
-                <td>SN2</td>
-                <td id="sn2-object-data">Loading...</td>
-                <td id="sn2-gas-data">Loading...</td>
-                <td id="sn2-gas-threshold-data">Loading...</td>
-                <td id="sn2-temp-threshold-data">Loading...</td>
-                <td id="sn2-khancap-data">Loading...</td>
-            </tr>
-            <tr>
-                <td>SN3</td>
-                <td id="sn3-object-data">Loading...</td>
-                <td id="sn3-gas-data">Loading...</td>
-                <td id="sn3-gas-threshold-data">Loading...</td>
-                <td id="sn3-temp-threshold-data">Loading...</td>
-                <td id="sn3-khancap-data">Loading...</td>
-            </tr>
-            <tr>
-                <td>SN4</td>
-                <td id="sn4-object-data">Loading...</td>
-                <td id="sn4-gas-data">Loading...</td>
-                <td id="sn4-gas-threshold-data">Loading...</td>
-                <td id="sn4-temp-threshold-data">Loading...</td>
-                <td id="sn4-khancap-data">Loading...</td>
-            </tr>
-        </tbody>
-    </table>
 </body>
 </html>
