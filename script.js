@@ -3,6 +3,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
 
+// Cập nhật thời gian hiện tại vào phần tử datetime
+const datetimeElement = document.getElementById('datetime');
+const updateDateTime = () => {
+    const now = new Date();
+    datetimeElement.textContent = `Thời gian hiện tại: ${now.toLocaleString()}`;
+};
+
+setInterval(updateDateTime, 1000); // Cập nhật mỗi giây
 // Cấu hình Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyB2bRIDe_WmC4PrqNw0Pc3NmpB8RN49GlA",
