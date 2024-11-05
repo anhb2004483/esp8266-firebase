@@ -62,7 +62,7 @@ sendButton.addEventListener('click', () => {
     setTimeout(() => {
       inputMessage.textContent = '';
       inputMessage.classList.remove('success');
-    }, 2000);
+    }, 1000);
   })
   .catch((error) => {
     console.error("Lỗi khi gửi dữ liệu:", error);
