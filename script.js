@@ -1,7 +1,3 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyB2bRIDe_WmC4PrqNw0Pc3NmpB8RN49GlA",
@@ -15,8 +11,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
 // Handle form submission
 document.getElementById('dataForm').addEventListener('submit', function(event) {
@@ -25,7 +21,7 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
     const bbbValue = document.getElementById('bbb').value;
 
     // Gửi dữ liệu vào Firebase
-    set(ref(database, 'SN1/bbb'), {
+    firebase.database().ref('SN1/bbb').set({
         value: bbbValue
     }).then(() => {
         document.getElementById('message').textContent = 'Dữ liệu đã được gửi thành công!';
