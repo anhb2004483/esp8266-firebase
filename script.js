@@ -94,7 +94,8 @@ loginButton.addEventListener('click', () => {
     const userData = snapshot.val();
 
     if (userData) {
-      const dbUsername = userData.name;
+      // Lấy giá trị 'name' và 'password' từ Firebase
+      const dbUsername = userData.name; // Giữ nguyên 'name'
       const dbPassword = userData.password;
 
       if (username === dbUsername && password === dbPassword) {
@@ -116,6 +117,7 @@ loginButton.addEventListener('click', () => {
     loginMessage.classList.add('error');
   });
 });
+
 
 // Biến để theo dõi trạng thái khẩn cấp
 let khancapState = -1; // -1 là OFF, -2 là ON
