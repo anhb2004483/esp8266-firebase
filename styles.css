@@ -29,27 +29,7 @@ h1 {
     margin: 10px 0;
 }
 
-.email-row {
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-}
-.email-row label {
-    width: 100px;
-    margin-right: 10px;
-}
-.email-row input {
-    flex: 1;
-    margin-right: 10px;
-    padding: 5px;
-}
-.email-row button {
-    padding: 5px 10px;
-}
-#email-message {
-    margin-top: 10px;
-    color: #006400;
-}
+
 
 
 table {
@@ -174,4 +154,34 @@ td {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+
+#gmail-container {
+    margin-top: 20px;
+}
+
+.gmail-entry {
+    display: flex;
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    margin-bottom: 10px; /* Khoảng cách giữa các dòng */
+}
+
+.gmail-entry input {
+    margin-right: 10px; /* Khoảng cách giữa ô nhập và nút gửi */
+    padding: 5px;
+    font-size: 14px;
+    width: 200px; /* Đặt chiều rộng ô nhập */
+}
+
+.gmail-entry button {
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#gmail-message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: red;
 }
