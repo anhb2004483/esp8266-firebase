@@ -150,28 +150,54 @@ const inputMessage = document.getElementById('input-message');
 
 sendButton.addEventListener('click', () => {
     const selectedSensor = sensorSelect.value;
-    const gasThresholdValue = Number(document.getElementById('gas-threshold-input').value);
-    const tempThresholdValue = Number(document.getElementById('temp-threshold-input').value);
+    const gasThresholdValue = document.getElementById('gas-threshold-input').value;
+    const tempThresholdValue = document.getElementById('temp-threshold-input').value;
 
-    if (isNaN(gasThresholdValue) || isNaN(tempThresholdValue)) {
-        inputMessage.textContent = 'Vui lòng nhập các giá trị số hợp lệ!';
+    // Kiểm tra xem người dùng có nhập dữ liệu cho ngưỡng gas và nhiệt độ hay không
+    if (gasThresholdValue === "" && tempThresholdValue === "") {
+        inputMessage.textContent = 'Vui lòng nhập ít nhất một giá trị cho ngưỡng gas hoặc ngưỡng nhiệt độ!';
         inputMessage.classList.add('error');
         inputMessage.classList.remove('success');
         return;
     }
 
-    const gasThresholdRef = ref(database, `${selectedSensor}/Gas_threshold`);
-    const tempThresholdRef = ref(database, `${selectedSensor}/Temp_threshold`);
+    // Chỉ gửi khi ít nhất có một giá trị hợp lệ
+    let promises = [];
+    
+    if (gasThresholdValue !== "") {
+        const gasThresholdNumber = Number(gasThresholdValue);
+        if (!isNaN(gasThresholdNumber)) {
+            const gasThresholdRef = ref(database, `${selectedSensor}/Gas_threshold`);
+            promises.push(set(gasThresholdRef, gasThresholdNumber));
+        } else {
+            inputMessage.textContent = 'Vui lòng nhập giá trị hợp lệ cho ngưỡng gas!';
+            inputMessage.classList.add('error');
+            inputMessage.classList.remove('success');
+            return;
+        }
+    }
 
-    Promise.all([
-        set(gasThresholdRef, gasThresholdValue),
-        set(tempThresholdRef, tempThresholdValue)
-    ])
+    if (tempThresholdValue !== "") {
+        const tempThresholdNumber = Number(tempThresholdValue);
+        if (!isNaN(tempThresholdNumber)) {
+            const tempThresholdRef = ref(database, `${selectedSensor}/Temp_threshold`);
+            promises.push(set(tempThresholdRef, tempThresholdNumber));
+        } else {
+            inputMessage.textContent = 'Vui lòng nhập giá trị hợp lệ cho ngưỡng nhiệt độ!';
+            inputMessage.classList.add('error');
+            inputMessage.classList.remove('success');
+            return;
+        }
+    }
+
+    // Gửi các giá trị đã nhập lên Firebase
+    Promise.all(promises)
     .then(() => {
         inputMessage.textContent = 'Giá trị đã được gửi thành công!';
         inputMessage.classList.add('success');
         inputMessage.classList.remove('error');
 
+        // Xóa ô nhập sau khi gửi thành công
         document.getElementById('gas-threshold-input').value = '';
         document.getElementById('temp-threshold-input').value = '';
 
