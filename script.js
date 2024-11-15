@@ -189,39 +189,45 @@ sendButton.addEventListener('click', () => {
 });
 
 
-// Xử lý cập nhật Gmail thông báo
-const emailButtons = document.querySelectorAll('.email-send-button');
-const emailMessage = document.getElementById('email-message');
 
-emailButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const userId = button.getAttribute('data-user');
-        const emailInput = document.getElementById(`email-${userId}`);
-        const emailValue = emailInput.value.trim();
+// Hàm gửi Gmail lên Firebase
+const sendGmailToFirebase = (userKey, emailValue) => {
+    const userRef = ref(database, `user/${userKey}`);
+    set(userRef, emailValue)
+        .then(() => {
+            gmailMessage.textContent = `Đã cập nhật Gmail cho ${userKey} thành công!`;
+            gmailMessage.classList.add('success');
+            gmailMessage.classList.remove('error');
+            setTimeout(() => {
+                gmailMessage.textContent = '';
+            }, 2000);
+        })
+        .catch((error) => {
+            console.error(`Lỗi khi cập nhật Gmail cho ${userKey}:`, error);
+            gmailMessage.textContent = `Lỗi khi cập nhật Gmail: ${error.message}`;
+            gmailMessage.classList.add('error');
+            gmailMessage.classList.remove('success');
+        });
+};
 
-        if (!emailValue || !validateEmail(emailValue)) {
-            emailMessage.textContent = `Vui lòng nhập địa chỉ email hợp lệ cho ${userId.toUpperCase()}!`;
-            emailMessage.style.color = 'red';
+// Xử lý sự kiện nhấn nút "Gửi" Gmail
+const gmailContainer = document.getElementById('gmail-container');
+const gmailMessage = document.getElementById('gmail-message');
+
+gmailContainer.addEventListener('click', (event) => {
+    if (event.target.classList.contains('gmail-send-button')) {
+        const userKey = event.target.getAttribute('data-user');
+        const emailInputId = `gmail-${userKey}`;
+        const emailValue = document.getElementById(emailInputId).value;
+
+        if (!emailValue || !emailValue.includes('@')) {
+            gmailMessage.textContent = 'Vui lòng nhập địa chỉ Gmail hợp lệ!';
+            gmailMessage.classList.add('error');
+            gmailMessage.classList.remove('success');
             return;
         }
 
-        const emailRef = ref(database, `user/${userId}/email`);
-        set(emailRef, emailValue)
-            .then(() => {
-                emailMessage.textContent = `Địa chỉ Gmail của ${userId.toUpperCase()} đã được cập nhật thành công!`;
-                emailMessage.style.color = 'green';
-                emailInput.value = ''; // Xóa nội dung sau khi gửi
-            })
-            .catch(error => {
-                console.error("Lỗi khi cập nhật Gmail:", error);
-                emailMessage.textContent = `Đã xảy ra lỗi khi cập nhật Gmail cho ${userId.toUpperCase()}: ${error.message}`;
-                emailMessage.style.color = 'red';
-            });
-    });
+        sendGmailToFirebase(userKey, emailValue);
+    }
 });
 
-// Hàm kiểm tra định dạng email
-const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-};
