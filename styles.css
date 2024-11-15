@@ -161,6 +161,7 @@ td {
     margin-top: 20px;
 }
 
+/* Đảm bảo nút gửi và ô nhập Gmail nằm cùng hàng */
 .gmail-entry {
     display: flex;
     align-items: center; /* Căn giữa các phần tử theo chiều dọc */
@@ -179,6 +180,7 @@ td {
     font-size: 14px;
     cursor: pointer;
 }
+
 
 #gmail-message {
     margin-top: 10px;
