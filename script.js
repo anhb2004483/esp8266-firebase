@@ -227,7 +227,10 @@ gmailContainer.addEventListener('click', (event) => {
             return;
         }
 
+        console.log(`Đang gửi Gmail: ${emailValue} cho user: ${userKey}`); // Log thông tin
+
         sendGmailToFirebase(userKey, emailValue);
     }
 });
+
 
