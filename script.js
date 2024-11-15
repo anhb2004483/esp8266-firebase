@@ -187,3 +187,41 @@ sendButton.addEventListener('click', () => {
         inputMessage.classList.remove('success');
     });
 });
+
+
+// Xử lý cập nhật Gmail thông báo
+const emailButtons = document.querySelectorAll('.email-send-button');
+const emailMessage = document.getElementById('email-message');
+
+emailButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const userId = button.getAttribute('data-user');
+        const emailInput = document.getElementById(`email-${userId}`);
+        const emailValue = emailInput.value.trim();
+
+        if (!emailValue || !validateEmail(emailValue)) {
+            emailMessage.textContent = `Vui lòng nhập địa chỉ email hợp lệ cho ${userId.toUpperCase()}!`;
+            emailMessage.style.color = 'red';
+            return;
+        }
+
+        const emailRef = ref(database, `user/${userId}/email`);
+        set(emailRef, emailValue)
+            .then(() => {
+                emailMessage.textContent = `Địa chỉ Gmail của ${userId.toUpperCase()} đã được cập nhật thành công!`;
+                emailMessage.style.color = 'green';
+                emailInput.value = ''; // Xóa nội dung sau khi gửi
+            })
+            .catch(error => {
+                console.error("Lỗi khi cập nhật Gmail:", error);
+                emailMessage.textContent = `Đã xảy ra lỗi khi cập nhật Gmail cho ${userId.toUpperCase()}: ${error.message}`;
+                emailMessage.style.color = 'red';
+            });
+    });
+});
+
+// Hàm kiểm tra định dạng email
+const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
