@@ -29,6 +29,29 @@ h1 {
     margin: 10px 0;
 }
 
+.email-row {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+.email-row label {
+    width: 100px;
+    margin-right: 10px;
+}
+.email-row input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 5px;
+}
+.email-row button {
+    padding: 5px 10px;
+}
+#email-message {
+    margin-top: 10px;
+    color: #006400;
+}
+
+
 table {
     width: 100%;
     max-width: 600px;
