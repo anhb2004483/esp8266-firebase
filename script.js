@@ -221,11 +221,19 @@ const sendGmailToFirebase = (userKey, emailValue) => {
     const userRef = ref(database, `user/${userKey}`);
     set(userRef, emailValue)
         .then(() => {
+            // Hiển thị thông báo thành công
             gmailMessage.textContent = `Đã cập nhật Gmail cho ${userKey} thành công!`;
             gmailMessage.classList.add('success');
             gmailMessage.classList.remove('error');
+
+            // Reset ô nhập Gmail
+            const emailInputId = `gmail-${userKey}`;
+            document.getElementById(emailInputId).value = '';
+
+            // Ẩn thông báo sau 2 giây
             setTimeout(() => {
                 gmailMessage.textContent = '';
+                gmailMessage.classList.remove('success');
             }, 2000);
         })
         .catch((error) => {
@@ -233,6 +241,12 @@ const sendGmailToFirebase = (userKey, emailValue) => {
             gmailMessage.textContent = `Lỗi khi cập nhật Gmail: ${error.message}`;
             gmailMessage.classList.add('error');
             gmailMessage.classList.remove('success');
+
+            // Ẩn thông báo lỗi sau 2 giây
+            setTimeout(() => {
+                gmailMessage.textContent = '';
+                gmailMessage.classList.remove('error');
+            }, 2000);
         });
 };
 
